@@ -19,7 +19,7 @@
     </div>
 
     <q-dialog v-model="showAddTask">
-      <AddTask />
+      <AddTask @close="showAddTask = false" />
     </q-dialog>
   </q-page>
 </template>
@@ -33,7 +33,7 @@ export default {
   name: "PageIndex",
   data() {
     return {
-      showAddTask: true
+      showAddTask: false
     };
   },
   components: {
