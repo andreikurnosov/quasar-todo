@@ -9,7 +9,9 @@
         <div class="row q-mb-sm">
           <q-input
             :rules="[val => !!val || 'Field is required']"
+            autofocus
             ref="name"
+            clearable
             outlined
             v-model="taskToSubmit.name"
             label="Task name"
@@ -17,7 +19,7 @@
           />
         </div>
         <div class="row q-mb-sm">
-          <q-input outlined v-model="taskToSubmit.dueDate">
+          <q-input outlined clearable v-model="taskToSubmit.dueDate">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy
@@ -35,8 +37,13 @@
           </q-input>
         </div>
 
-        <div class="row q-mb-sm">
-          <q-input outlined v-model="taskToSubmit.dueTime">
+        <div v-if="taskToSubmit.dueDate" class="row q-mb-sm">
+          <q-input
+            outlined
+            clearable
+            class="col"
+            v-model="taskToSubmit.dueTime"
+          >
             <template v-slot:append>
               <q-icon name="access_time" class="cursor-pointer">
                 <q-popup-proxy transition-show="scale" transition-hide="scale">
@@ -79,7 +86,7 @@ export default {
     },
     submitTask() {
       this.addTask(this.taskToSubmit);
-      this.$emit('close');
+      this.$emit("close");
     }
   }
 };

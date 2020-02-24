@@ -1,6 +1,8 @@
 <template>
   <q-page class="q-pa-md">
-    <q-list separator bordered>
+    <q-list
+    v-if="Object.keys(getTasks).length"
+    separator bordered>
       <TaskItem
         v-for="(task, key) in getTasks"
         :key="key"
@@ -8,6 +10,7 @@
         :id="key"
       />
     </q-list>
+
     <div class="absolute-bottom text-center q-mb-lg">
       <q-btn
         @click="showAddTask = true"
