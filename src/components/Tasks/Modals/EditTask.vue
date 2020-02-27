@@ -1,6 +1,6 @@
 <template>
   <q-card>
-    <ModalHeader> Add Task </ModalHeader>
+    <ModalHeader> Edit Task </ModalHeader>
     <q-form @submit.prevent="submitForm">
       <q-card-section class="q-pt-none">
         <ModalTaskName :name.sync="taskToSubmit.name" ref="modalTaskName" />
@@ -27,6 +27,7 @@ import ModalDueTime from "./Shared/ModalDueTime";
 import ModalButtons from "./Shared/ModalButtons";
 
 export default {
+  props: ["task", "id"],
   components: {
     ModalHeader,
     ModalTaskName,
@@ -36,16 +37,11 @@ export default {
   },
   data() {
     return {
-      taskToSubmit: {
-        name: "",
-        dueDate: "",
-        dueTime: "",
-        completed: false
-      }
+      taskToSubmit: {}
     };
   },
   methods: {
-    ...mapActions("tasks", ["addTask"]),
+    ...mapActions("tasks", ["updateTask"]),
     submitForm() {
       this.$refs.modalTaskName.$refs.name.validate();
       if (!this.$refs.modalTaskName.$refs.name.hasError) {
@@ -53,9 +49,15 @@ export default {
       }
     },
     submitTask() {
-      this.addTask(this.taskToSubmit);
+      this.updateTask({
+        id: this.id,
+        updates: this.taskToSubmit
+      });
       this.$emit("close");
     }
+  },
+  mounted() {
+    this.taskToSubmit = Object.assign({}, this.task);
   }
 };
 </script>
