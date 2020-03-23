@@ -1,8 +1,12 @@
 <template>
   <q-page class="q-pa-md">
-    <SearchBar />
+    <div class="row q-mb-lg">
+      <SearchBar />
+    </div>
+    <p v-if="search && !Object.keys(getTasks).length && !Object.keys(getTasksCompleted).length">No search results.
+    </p>
 
-    <NoTasks v-if="!Object.keys(getTasks).length" />
+    <NoTasks v-if="!Object.keys(getTasks).length && !search" />
 
     <TasksTodo v-else :getTasks="getTasks" />
 
@@ -25,7 +29,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import TasksTodo from "../components/Tasks/TasksTodo";
 import SearchBar from "../components/Tasks/Tools/SearchBar";
 import TasksCompleted from "../components/Tasks/TasksCompleted";
@@ -43,11 +47,13 @@ export default {
     AddTask,
     TasksTodo,
     TasksCompleted,
-    NoTasks
+    NoTasks,
+    SearchBar
   },
 
   computed: {
-    ...mapGetters("tasks", ["getTasks", "getTasksCompleted"])
+    ...mapGetters("tasks", ["getTasks", "getTasksCompleted"]),
+    ...mapState("tasks", ["search"])
   },
   mounted() {
     this.$root.$on("showAddTask", () => {

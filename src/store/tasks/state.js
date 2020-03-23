@@ -19,6 +19,7 @@ export default function() {
         dueDate: "2020/08/09",
         dueTime: "17:50"
       }
-    }
+    },
+    search: ''
   };
 }
