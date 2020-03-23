@@ -2,6 +2,7 @@
   <q-page class="q-pa-md">
     <div class="row q-mb-lg">
       <SearchBar />
+      <Sort />
     </div>
     <p v-if="search && !Object.keys(getTasks).length && !Object.keys(getTasksCompleted).length">No search results.
     </p>
@@ -32,6 +33,7 @@
 import { mapGetters, mapState } from "vuex";
 import TasksTodo from "../components/Tasks/TasksTodo";
 import SearchBar from "../components/Tasks/Tools/SearchBar";
+import Sort from "../components/Tasks/Tools/Sort";
 import TasksCompleted from "../components/Tasks/TasksCompleted";
 import NoTasks from "../components/Tasks/NoTasks";
 import AddTask from "../components/Tasks/Modals/AddTask";
@@ -48,7 +50,8 @@ export default {
     TasksTodo,
     TasksCompleted,
     NoTasks,
-    SearchBar
+    SearchBar,
+    Sort
   },
 
   computed: {

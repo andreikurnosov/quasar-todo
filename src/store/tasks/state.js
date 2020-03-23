@@ -20,6 +20,7 @@ export default function() {
         dueTime: "17:50"
       }
     },
-    search: ''
+    search: '',
+    sort: 'name'
   };
 }
