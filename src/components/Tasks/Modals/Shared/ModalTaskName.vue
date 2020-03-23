@@ -1,20 +1,25 @@
 <template>
   <div class="row q-mb-sm">
     <q-input
+      outlined
+      :value="name"
+      @input="$emit('update:name', $event)"
       :rules="[val => !!val || 'Field is required']"
       autofocus
+      v-select-all
       ref="name"
-      clearable
-      outlined
-      @input="$emit('update:name', $event)"
-      :value="name"
       label="Task name"
+      clearable
       class="col"
     />
   </div>
 </template>
 <script>
+import {selectAll} from 'src/directives/directive-select-all';
 export default {
-  props: ["name"]
+  props: ["name"],
+  directives: {
+    selectAll
+  }
 };
 </script>

@@ -1,26 +1,40 @@
 <template>
-  <q-page class="q-pa-md">
-    <div class="row q-mb-lg">
-      <SearchBar />
-      <Sort />
-    </div>
-    <p v-if="search && !Object.keys(getTasks).length && !Object.keys(getTasksCompleted).length">No search results.
-    </p>
+  <q-page>
+    <div class="q-pa-md absolute full-width full-height column">
+      <div class="row q-mb-lg">
+        <SearchBar />
+        <Sort />
+      </div>
+      <p
+        v-if="
+          search &&
+            !Object.keys(getTasks).length &&
+            !Object.keys(getTasksCompleted).length
+        "
+      >
+        No search results.
+      </p>
+      <q-scroll-area class="q-scrollarea-tasks">
+        <NoTasks v-if="!Object.keys(getTasks).length && !search" />
 
-    <NoTasks v-if="!Object.keys(getTasks).length && !search" />
+        <TasksTodo class="q-mb-xl" v-else :getTasks="getTasks" />
 
-    <TasksTodo v-else :getTasks="getTasks" />
+        <TasksCompleted
+          class="q-mb-xl"
+          :getTasksCompleted="getTasksCompleted"
+        />
+      </q-scroll-area>
 
-    <TasksCompleted :getTasksCompleted="getTasksCompleted" />
-
-    <div class="absolute-bottom text-center q-mb-lg">
-      <q-btn
-        @click="showAddTask = true"
-        round
-        color="primary"
-        size="24px"
-        icon="add"
-      />
+      <div class="absolute-bottom text-center q-mb-lg no-pointer-events">
+        <q-btn
+          @click="showAddTask = true"
+          class="all-pointer-events"
+          round
+          color="primary"
+          size="24px"
+          icon="add"
+        />
+      </div>
     </div>
 
     <q-dialog v-model="showAddTask">
@@ -65,3 +79,9 @@ export default {
   }
 };
 </script>
+<style scoped>
+.q-scrollarea-tasks {
+  display: flex;
+  flex-grow: 1;
+}
+</style>

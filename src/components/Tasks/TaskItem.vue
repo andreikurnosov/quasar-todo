@@ -4,15 +4,17 @@
     :class="task.completed ? 'bg-green-1' : 'bg-orange-1'"
     v-ripple
     clickable
+    v-touch-hold:1000.mouse="showEditTaskModal"
   >
     <q-item-section side>
       <q-checkbox :value="task.completed" class="no-pointer-events" />
     </q-item-section>
 
     <q-item-section>
-      <q-item-label :class="{ 'text-strike': task.completed }">{{
-        task.name
-      }}</q-item-label>
+      <q-item-label
+        :class="{ 'text-strike': task.completed }"
+        v-html="$options.filters.searchHighlight(task.name, search)"
+      ></q-item-label>
     </q-item-section>
 
     <q-item-section v-if="task.dueDate" side top>
@@ -22,7 +24,7 @@
         </div>
         <div class="column">
           <q-item-label caption class="row justify-end">{{
-            task.dueDate
+            task.dueDate | niceDate
           }}</q-item-label>
           <q-item-label caption class="row justify-end"
             ><small>{{ task.dueTime }}</small></q-item-label
@@ -33,7 +35,7 @@
     <q-item-section side>
       <div class="row">
         <q-btn
-          @click.stop="showEditTask = true"
+          @click.stop="showEditTaskModal"
           flat
           round
           dense
@@ -58,7 +60,8 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapState, mapActions } from "vuex";
+import { date } from "quasar";
 import EditTask from "./Modals/EditTask";
 export default {
   props: ["task", "id"],
@@ -70,8 +73,14 @@ export default {
       showEditTask: false
     };
   },
+  computed: {
+    ...mapState("tasks", ["search"])
+  },
   methods: {
     ...mapActions("tasks", ["updateTask", "deleteTask"]),
+    showEditTaskModal() {
+      this.showEditTask = true;
+    },
     promptToDelete(id) {
       this.$q
         .dialog({
@@ -88,6 +97,21 @@ export default {
         .onOk(() => {
           this.deleteTask(id);
         });
+    }
+  },
+  filters: {
+    niceDate(value) {
+      const { formatDate } = date;
+      return formatDate(value, "MMM D");
+    },
+    searchHighlight(value, search) {
+      if (search) {
+        let searchRegExp = new RegExp(search, "ig");
+        return value.replace(searchRegExp, match => {
+          return '<span class="bg-yellow-6">' + match + "</span>";
+        });
+      }
+      return value;
     }
   }
 };
