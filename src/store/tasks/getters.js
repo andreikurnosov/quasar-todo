@@ -10,7 +10,7 @@ export function tasksSorted(state) {
     else return 0;
   });
 
-  keysOrdered.forEach((key) => {
+  keysOrdered.forEach(key => {
     tasksSorted[key] = state.tasks[key];
   });
 

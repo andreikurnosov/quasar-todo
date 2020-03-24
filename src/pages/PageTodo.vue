@@ -15,14 +15,17 @@
         No search results.
       </p>
       <q-scroll-area class="q-scrollarea-tasks">
-        <NoTasks v-if="!Object.keys(getTasks).length && !search" />
-
-        <TasksTodo class="q-mb-xl" v-else :getTasks="getTasks" />
-
-        <TasksCompleted
-          class="q-mb-xl"
-          :getTasksCompleted="getTasksCompleted"
+        <NoTasks
+          v-if="
+            !Object.keys(getTasks).length &&
+              !search &&
+              !getSettings.showTasksInOneList
+          "
         />
+
+        <TasksTodo v-else :getTasks="getTasks" />
+
+        <TasksCompleted :getTasksCompleted="getTasksCompleted" />
       </q-scroll-area>
 
       <div class="absolute-bottom text-center q-mb-lg no-pointer-events">
@@ -70,6 +73,7 @@ export default {
 
   computed: {
     ...mapGetters("tasks", ["getTasks", "getTasksCompleted"]),
+    ...mapGetters("settings", ["getSettings"]),
     ...mapState("tasks", ["search"])
   },
   mounted() {
