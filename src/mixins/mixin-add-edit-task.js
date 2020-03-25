@@ -1,16 +1,10 @@
-import ModalHeader from "components/Tasks/Modals/Shared/ModalHeader";
-import ModalTaskName from "components/Tasks/Modals/Shared/ModalTaskName";
-import ModalDueDate from "components/Tasks/Modals/Shared/ModalDueDate";
-import ModalDueTime from "components/Tasks/Modals/Shared/ModalDueTime";
-import ModalButtons from "components/Tasks/Modals/Shared/ModalButtons";
-
 export default {
   components: {
-    ModalHeader,
-    ModalTaskName,
-    ModalDueDate,
-    ModalDueTime,
-    ModalButtons
+    ModalHeader: () => import("components/Tasks/Modals/Shared/ModalHeader"),
+    ModalTaskName: () => import("components/Tasks/Modals/Shared/ModalTaskName"),
+    ModalDueDate: () => import("components/Tasks/Modals/Shared/ModalDueDate"),
+    ModalDueTime: () => import("components/Tasks/Modals/Shared/ModalDueTime"),
+    ModalButtons: () => import("components/Tasks/Modals/Shared/ModalButtons")
   },
   methods: {
     submitForm() {

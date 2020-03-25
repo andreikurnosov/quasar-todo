@@ -62,11 +62,11 @@
 <script>
 import { mapState, mapActions, mapGetters } from "vuex";
 import { date } from "quasar";
-import EditTask from "./Modals/EditTask";
+
 export default {
   props: ["task", "id"],
   components: {
-    EditTask
+    EditTask: () => import("./Modals/EditTask")
   },
   data() {
     return {

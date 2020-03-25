@@ -48,12 +48,6 @@
 
 <script>
 import { mapGetters, mapState } from "vuex";
-import TasksTodo from "../components/Tasks/TasksTodo";
-import SearchBar from "../components/Tasks/Tools/SearchBar";
-import Sort from "../components/Tasks/Tools/Sort";
-import TasksCompleted from "../components/Tasks/TasksCompleted";
-import NoTasks from "../components/Tasks/NoTasks";
-import AddTask from "../components/Tasks/Modals/AddTask";
 
 export default {
   name: "PageIndex",
@@ -63,12 +57,12 @@ export default {
     };
   },
   components: {
-    AddTask,
-    TasksTodo,
-    TasksCompleted,
-    NoTasks,
-    SearchBar,
-    Sort
+    AddTask: () => import("../components/Tasks/Modals/AddTask"),
+    TasksTodo: () => import("../components/Tasks/TasksTodo"),
+    TasksCompleted: () => import("../components/Tasks/TasksCompleted"),
+    NoTasks: () => import("../components/Tasks/NoTasks"),
+    SearchBar: () => import("../components/Tasks/Tools/SearchBar"),
+    Sort: () => import("../components/Tasks/Tools/Sort")
   },
 
   computed: {

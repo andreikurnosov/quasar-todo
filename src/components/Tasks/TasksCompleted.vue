@@ -6,7 +6,7 @@
   >
     <div
       v-if="Object.keys(getTasksCompleted).length"
-      :class="{ 'q-mt-lg' : !getSettings.showTasksInOneList }"
+      :class="{ 'q-mt-lg': !getSettings.showTasksInOneList }"
     >
       <ListHeader v-if="!getSettings.showTasksInOneList" bgColor="bg-green-5"
         >Completed</ListHeader
@@ -25,8 +25,6 @@
 </template>
 
 <script>
-import TaskItem from "./TaskItem";
-import ListHeader from "../Shared/ListHeader";
 import { mapGetters } from "vuex";
 
 export default {
@@ -35,8 +33,8 @@ export default {
     ...mapGetters("settings", ["getSettings"])
   },
   components: {
-    TaskItem,
-    ListHeader
+    TaskItem: () => import("./TaskItem"),
+    ListHeader: () => import("../Shared/ListHeader")
   }
 };
 </script>
