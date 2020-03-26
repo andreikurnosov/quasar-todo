@@ -6,10 +6,19 @@
           Todo App
         </q-toolbar-title>
         <q-btn
+          v-if="!loggedIn"
           to="/auth"
           flat
           icon-right="account_circle"
           label="Login"
+          class="absolute-right"
+        />
+        <q-btn
+          v-else
+          @click="logoutUser"
+          flat
+          icon-right="exit_to_app"
+          label="Logout"
           class="absolute-right"
         />
       </q-toolbar>
@@ -54,11 +63,21 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+
 export default {
   name: "MainLayout",
 
   components: {
-    EssentialLink: () => import('../components/EssentialLink')
+    EssentialLink: () => import("../components/EssentialLink")
+  },
+
+  computed: {
+    ...mapState("auth", ["loggedIn"])
+  },
+
+  methods: {
+    ...mapActions('auth', ['logoutUser'])
   },
 
   data() {
