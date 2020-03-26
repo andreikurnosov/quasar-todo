@@ -24,7 +24,7 @@
       </q-toolbar>
     </q-header>
 
-    <q-footer>
+    <q-footer v-if="loggedIn">
       <q-tabs>
         <q-route-tab
           v-for="navLink in essentialLinks"
@@ -37,6 +37,7 @@
     </q-footer>
 
     <q-drawer
+      v-if="loggedIn"
       v-model="leftDrawerOpen"
       show-if-above
       :width="250"
@@ -77,7 +78,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('auth', ['logoutUser'])
+    ...mapActions("auth", ["logoutUser"])
   },
 
   data() {

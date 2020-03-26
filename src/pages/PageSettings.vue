@@ -49,14 +49,13 @@
           <q-icon name="chevron_right" />
         </q-item-section>
       </q-item>
-
     </q-list>
   </q-page>
 </template>
 
 <script>
 import { mapGetters, mapActions } from "vuex";
-import { openURL } from 'quasar'
+import { openURL } from "quasar";
 
 export default {
   name: "PageIndex",
@@ -84,10 +83,10 @@ export default {
     ...mapActions("settings", ["setTwelfthHourTimeFormat"]),
     ...mapActions("settings", ["setShowTasksInOneList"]),
     visitOurWebsite() {
-      openURL('http://www.google.com')
+      openURL("http://www.google.com");
     },
     emailUs() {
-      window.location.href = 'mailto:hello@gmail.com?subject=Todo Feedback'
+      window.location.href = "mailto:hello@gmail.com?subject=Todo Feedback";
     }
   }
 };

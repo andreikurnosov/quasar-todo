@@ -26,13 +26,14 @@ export function loginUser({}, payload) {
     });
 }
 
-export function handleAuthStateChange({ commit }) {
+export function handleAuthStateChange({ commit, dispatch }) {
   firebaseAuth.onAuthStateChanged(user => {
     Loading.hide();
     if (user) {
       commit("setLoggedIn", true);
       LocalStorage.set("loggedIn", true);
       this.$router.push("/");
+      dispatch("tasks/fbReadData", null, { root: true });
     } else {
       // uncaught error =>
       // "Navigating to current location ("/auth") is not allowed"
