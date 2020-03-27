@@ -20,6 +20,10 @@ export function setSort(state, value) {
   state.sort = value;
 }
 
-export function setTasksDownloaded(state,value){
-  state.tasksDownloaded = value
+export function setTasksDownloaded(state, value) {
+  state.tasksDownloaded = value;
+}
+
+export function clearTasks(state) {
+  state.tasks = {};
 }
