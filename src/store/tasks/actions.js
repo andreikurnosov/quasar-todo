@@ -30,6 +30,10 @@ export function fbReadData({ commit }) {
   let userId = firebaseAuth.currentUser.uid;
   let userTasks = firebaseDb.ref("tasks/" + userId);
 
+  userTasks.once("value", snapshot => {
+    commit("setTasksDownloaded", true);
+  });
+
   userTasks.on("child_added", snapshot => {
     let task = snapshot.val();
     let payload = {

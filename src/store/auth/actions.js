@@ -37,6 +37,9 @@ export function handleAuthStateChange({ commit, dispatch }) {
     } else {
       // uncaught error =>
       // "Navigating to current location ("/auth") is not allowed"
+      commit("/tasks/setTasksDownloaded", false, {
+        root: true
+      });
       commit("setLoggedIn", false);
       LocalStorage.set("loggedIn", false);
       this.$router.replace("/auth");

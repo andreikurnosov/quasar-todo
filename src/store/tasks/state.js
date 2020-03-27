@@ -1,8 +1,8 @@
-
 export default function() {
   return {
     tasks: {},
     search: "",
-    sort: "name"
+    sort: "name",
+    tasksDownloaded: false
   };
 }

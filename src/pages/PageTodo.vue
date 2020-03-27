@@ -1,43 +1,51 @@
 <template>
   <q-page>
     <div class="q-pa-md absolute full-width full-height column">
-      <div class="row q-mb-lg">
-        <SearchBar />
-        <Sort />
-      </div>
-      <p
-        v-if="
-          search &&
-            !Object.keys(getTasks).length &&
-            !Object.keys(getTasksCompleted).length
-        "
-      >
-        No search results.
-      </p>
-      <q-scroll-area class="q-scrollarea-tasks">
-        <NoTasks
+      <template v-if="tasksDownloaded">
+        <div class="row q-mb-lg">
+          <SearchBar />
+          <Sort />
+        </div>
+        <p
           v-if="
-            !Object.keys(getTasks).length &&
-              !search &&
-              !getSettings.showTasksInOneList
+            search &&
+              !Object.keys(getTasks).length &&
+              !Object.keys(getTasksCompleted).length
           "
-        />
+        >
+          No search results.
+        </p>
+        <q-scroll-area class="q-scrollarea-tasks">
+          <NoTasks
+            v-if="
+              !Object.keys(getTasks).length &&
+                !search &&
+                !getSettings.showTasksInOneList
+            "
+          />
 
-        <TasksTodo v-else :getTasks="getTasks" />
+          <TasksTodo v-else :getTasks="getTasks" />
 
-        <TasksCompleted :getTasksCompleted="getTasksCompleted" />
-      </q-scroll-area>
+          <TasksCompleted :getTasksCompleted="getTasksCompleted" />
+        </q-scroll-area>
 
-      <div class="absolute-bottom text-center q-mb-lg no-pointer-events">
-        <q-btn
-          @click="showAddTask = true"
-          class="all-pointer-events"
-          round
-          color="primary"
-          size="24px"
-          icon="add"
-        />
-      </div>
+        <div class="absolute-bottom text-center q-mb-lg no-pointer-events">
+          <q-btn
+            @click="showAddTask = true"
+            class="all-pointer-events"
+            round
+            color="primary"
+            size="24px"
+            icon="add"
+          />
+        </div>
+      </template>
+
+      <template v-else>
+        <span class="absolute-center"
+          ><q-spinner color="primary" size="3em"
+        /></span>
+      </template>
     </div>
 
     <q-dialog v-model="showAddTask">
@@ -68,7 +76,7 @@ export default {
   computed: {
     ...mapGetters("tasks", ["getTasks", "getTasksCompleted"]),
     ...mapGetters("settings", ["getSettings"]),
-    ...mapState("tasks", ["search"])
+    ...mapState("tasks", ["search", "tasksDownloaded"])
   },
   mounted() {
     this.$root.$on("showAddTask", () => {
