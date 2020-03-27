@@ -1,5 +1,6 @@
-import { uid } from "quasar";
+import { uid, Notify } from "quasar";
 import { firebaseDb, firebaseAuth } from "boot/firebase";
+import { showErrorMessage } from "src/functions/function-show-error-message";
 
 export function updateTask({ dispatch }, payload) {
   dispatch("fbUpdateTask", payload);
@@ -36,7 +37,8 @@ export function fbReadData({ commit }) {
       commit("setTasksDownloaded", true);
     },
     error => {
-      console.log("error.messafge: ", error.message);
+      showErrorMessage(error.message);
+      this.$router.replace("/auth");
     }
   );
 
@@ -70,17 +72,38 @@ export function fbReadData({ commit }) {
 export function fbAddTask({}, payload) {
   let userId = firebaseAuth.currentUser.uid;
   let taskRef = firebaseDb.ref("tasks/" + userId + "/" + payload.id);
-  taskRef.set(payload.task);
+  taskRef.set(payload.task, error => {
+    if (error) {
+      showErrorMessage(error.message);
+    } else {
+      Notify.create("Task added!");
+    }
+  });
 }
 
 export function fbUpdateTask({}, payload) {
   let userId = firebaseAuth.currentUser.uid;
   let taskRef = firebaseDb.ref("tasks/" + userId + "/" + payload.id);
-  taskRef.update(payload.updates);
+  taskRef.update(payload.updates, error => {
+    if (error) {
+      showErrorMessage(error.message);
+    } else {
+      let keys = Object.keys(payload.updates);
+      if (!(keys.includes("completed") && keys.length === 1)) {
+        Notify.create("Task updated!");
+      }
+    }
+  });
 }
 
 export function fbDeleteTask({}, taskId) {
   let userId = firebaseAuth.currentUser.uid;
   let taskRef = firebaseDb.ref("tasks/" + userId + "/" + taskId);
-  taskRef.remove();
+  taskRef.remove(error => {
+    if (error) {
+      showErrorMessage(error.message);
+    } else {
+      Notify.create("Task deleted!");
+    }
+  });
 }
